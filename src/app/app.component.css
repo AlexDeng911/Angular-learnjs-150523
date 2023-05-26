@@ -1,12 +1,5 @@
 :host {
-    /* background-color: aqua; */
-    display: block;
-}
-
-h1 {
-    color: red;
-}
-
-::ng-deep span {
-    color: aquamarine;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
