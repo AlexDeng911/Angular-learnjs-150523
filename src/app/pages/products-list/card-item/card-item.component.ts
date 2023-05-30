@@ -2,11 +2,11 @@ import {Component} from '@angular/core';
 import {productsMock} from '../../../shared/products/products.mock';
 
 @Component({
-    selector: 'app-card',
-    templateUrl: './card.component.html',
-    styleUrls: ['./card.component.css'],
+    selector: 'app-card-item',
+    templateUrl: './card-item.component.html',
+    styleUrls: ['./card-item.component.css'],
 })
-export class CardComponent {
+export class CardItemComponent {
     readonly product = productsMock[0];
 
     onProductBuy(event: Event) {
