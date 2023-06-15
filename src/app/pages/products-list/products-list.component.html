@@ -1,0 +1,69 @@
+<ng-container *ngIf="products$ | async as products; else loader">
+    <!-- easy -->
+    <!-- <ng-container
+		*appPagination="
+			let productsGroup of (products | productsFilter : name);
+			chankSize: 6;
+			let pageIndexes = pageIndexes;
+			let activeIndex = index;
+			let next = next;
+			let back = back;
+			let selectIndex = selectIndex
+		"
+	> -->
+
+    <!-- hard -->
+    <ng-container
+        *appPagination="
+            let productsGroup of products | filterByProperty : propertyName : searchPropertyValue;
+            chankSize: 6;
+            let pageIndexes = pageIndexes;
+            let activeIndex = index;
+            let next = next;
+            let back = back;
+            let selectIndex = selectIndex
+        "
+    >
+        <!-- <ng-container
+        *appPagination="
+            let productsGroup of products;
+            chankSize: 6;
+            let pageIndexes = pageIndexes;
+            let activeIndex = index;
+            let next = next;
+            let back = back;
+            let selectIndex = selectIndex
+        "
+    > -->
+        <div class="cards-container">
+            <app-card
+                *ngFor="let product of productsGroup; trackBy: trackBy"
+                class="card"
+                [product]="product"
+            ></app-card>
+        </div>
+        <div class="pagination-container">
+            <button mat-icon-button (click)="back()">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <div class="pagination__page-number-container">
+                <button
+                    *ngFor="let index of pageIndexes"
+                    mat-icon-button
+                    class="pagination__page-number"
+                    [class.pagination__page-number_active]="activeIndex === index"
+                    (click)="selectIndex(index)"
+                >
+                    {{ index + 1 }}
+                </button>
+            </div>
+            <button mat-icon-button (click)="next()">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
+    </ng-container>
+</ng-container>
+
+<ng-template #loader>
+    <mat-spinner class="loader"></mat-spinner>
+</ng-template>

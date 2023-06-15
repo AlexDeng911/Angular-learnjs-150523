@@ -1,0 +1,9 @@
+<app-header
+    [applicationConfig]="applicationConfig"
+    (menuClickOutput)="sidenav.toggleSidenavOpened()"
+></app-header>
+<app-sidenav #sidenav>
+    <app-products-list></app-products-list>
+</app-sidenav>
+
+<!-- <app-popup-host></app-popup-host> -->
