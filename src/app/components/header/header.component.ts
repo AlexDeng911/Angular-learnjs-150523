@@ -1,5 +1,13 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    TemplateRef,
+} from '@angular/core';
 import {IApplicationConfig} from '../../shared/application-config/application-config.interface';
+import {PopupService} from '../../shared/popup/popup.service';
 
 @Component({
     selector: 'app-header',
@@ -12,12 +20,16 @@ export class HeaderComponent {
 
     @Output() menuClickOutput = new EventEmitter<void>();
 
-    constructor() {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        let count = 0;
+    constructor(private readonly popupService: PopupService) {}
 
-        setInterval(() => {
-            count += 1;
-        }, 1000);
+    openPopup(template: TemplateRef<{$implicit: string}>) {
+        this.popupService.openPopup({
+            template,
+            context: {$implicit: this.applicationConfig?.title},
+        });
+    }
+
+    closePopup() {
+        this.popupService.closePopup();
     }
 }

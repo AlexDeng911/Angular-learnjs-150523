@@ -1,22 +1,9 @@
-<ng-container *ngIf="products$ | async as products; else loader">
-    <!-- easy -->
-    <!-- <ng-container
-		*appPagination="
-			let productsGroup of (products | productsFilter : name);
-			chankSize: 6;
-			let pageIndexes = pageIndexes;
-			let activeIndex = index;
-			let next = next;
-			let back = back;
-			let selectIndex = selectIndex
-		"
-	> -->
-
-    <!-- hard -->
+<app-filter [brands]="brands$ | async"></app-filter>
+<div *ngIf="products$ | async as products; else loader" class="scroll-container">
     <ng-container
         *appPagination="
-            let productsGroup of products | filterByProperty : propertyName : searchPropertyValue;
-            chankSize: 6;
+            let productsGroup of products | filterByProperty : 'name' : '';
+            chankSize: 4;
             let pageIndexes = pageIndexes;
             let activeIndex = index;
             let next = next;
@@ -24,21 +11,11 @@
             let selectIndex = selectIndex
         "
     >
-        <!-- <ng-container
-        *appPagination="
-            let productsGroup of products;
-            chankSize: 6;
-            let pageIndexes = pageIndexes;
-            let activeIndex = index;
-            let next = next;
-            let back = back;
-            let selectIndex = selectIndex
-        "
-    > -->
         <div class="cards-container">
             <app-card
                 *ngFor="let product of productsGroup; trackBy: trackBy"
                 class="card"
+                [routerLink]="'/product/' + product._id"
                 [product]="product"
             ></app-card>
         </div>
@@ -62,7 +39,7 @@
             </button>
         </div>
     </ng-container>
-</ng-container>
+</div>
 
 <ng-template #loader>
     <mat-spinner class="loader"></mat-spinner>

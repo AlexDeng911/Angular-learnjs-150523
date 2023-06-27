@@ -1,9 +1,6 @@
 <mat-card class="card">
     <mat-card-header>
         <mat-card-title>{{ product?.name }}</mat-card-title>
-        <!-- <mat-card-subtitle>{{ getPrice(product?.price) }}</mat-card-subtitle> -->
-        <!-- <mat-card-subtitle>{{ product?.price | myCurrency : '₽' }}</mat-card-subtitle> -->
-        <!-- <mat-card-subtitle>{{ CurrencyPipe.transform(product?.price, '₽') }}</mat-card-subtitle> -->
         <mat-card-subtitle>
             {{ product?.price | currency : 'USD' : 'symbol-narrow' : '1.0-0' }}
         </mat-card-subtitle>
@@ -12,11 +9,11 @@
         *appCarousel="let img of product?.images; let next = next; let back = back"
         class="galerey"
     >
-        <button mat-icon-button (click)="back()">
+        <button mat-icon-button (click)="back(); $event.stopPropagation()">
             <mat-icon>chevron_left</mat-icon>
         </button>
         <img mat-card-image alt="Product photo" [src]="img.url" />
-        <button mat-icon-button (click)="next()">
+        <button mat-icon-button (click)="next(); $event.stopPropagation()">
             <mat-icon>chevron_right</mat-icon>
         </button>
     </div>

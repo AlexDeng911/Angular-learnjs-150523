@@ -1,6 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {map, tap, switchMap} from 'rxjs';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
+import {BrandsService} from '../../shared/brands/brands.service';
 
 @Component({
     selector: 'app-products-list',
@@ -8,51 +11,28 @@ import {ProductsStoreService} from '../../shared/products/products-store.service
     styleUrls: ['./products-list.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductsListComponent implements OnInit {
-    // readonly products$ = of(productsMock).pipe(delay(2000));
+export class ProductsListComponent {
+    readonly products$ = this.activatedRoute.paramMap.pipe(
+        map(paramMap => paramMap.get('subCategoryId')),
+        tap(subCategoryId => {
+            this.productsStoreService.loadProducts(subCategoryId);
+        }),
+        switchMap(() => this.productsStoreService.products$),
+    );
 
-    // ls = new LocalStorageService();
-    // private readonly productsStoreService = new ProductsStoreService(
-    //     new ProductsApiService(
-    //         new HttpService(
-    //             this.ls,
-    //         ),
-    //         new ParamsService(
-    //             this.ls,
-    //         ),
-    //     )
-    // );
-
-    // private readonly productsStoreService = inject(ProductsStoreService);
-    readonly products$ = this.productsStoreService.products$;
-
-    // products: IProduct[] | null = null;
-
-    name = 'Мышь';
-
-    readonly propertyName = 'feedbacksCount' as const; // keyof IProduct
-    searchPropertyValue = 2;
+    readonly brands$ = this.activatedRoute.paramMap.pipe(
+        map(paramMap => paramMap.get('subcategoryId')),
+        tap(id => {
+            this.brandsService.loadBrands(id);
+        }),
+        switchMap(() => this.brandsService.brands$),
+    );
 
     constructor(
-        // @Inject(ChangeDetectorRef) private readonly changeDetectorRef: ChangeDetectorRef,
-        // private readonly changeDetectorRef: ChangeDetectorRef,
-        // @Inject(ProductsStoreService) private readonly productsStoreService: ProductsStoreService,
-        private readonly productsStoreService: ProductsStoreService, // @Inject('ProductsStoreServiceString') // private readonly productsStoreServiceString: ProductsStoreService, // @Inject('multiToken') // private readonly multiToken: string[],
-    ) {
-        // console.log(this.multiToken);
-    }
-
-    ngOnInit(): void {
-        this.productsStoreService.loadProducts();
-        //     this.products$.pipe().subscribe(products => {
-        //         this.products = products;
-        //         this.changeDetectorRef.markForCheck();
-        //     });
-        // setTimeout(() => {
-        //     this.products = productsMock;
-        //     this.changeDetectorRef.markForCheck();
-        // }, 3000);
-    }
+        private readonly productsStoreService: ProductsStoreService,
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly brandsService: BrandsService,
+    ) {}
 
     trackBy(_index: number, item: IProduct) {
         return item._id;
