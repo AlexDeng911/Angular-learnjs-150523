@@ -1,13 +1,13 @@
 // import {TestBed} from '@angular/core/testing';
 
-// import {PopupService} from './popup.service';
+// import {DestroyService} from './destroy.service';
 
-// xdescribe('PopupService', () => {
-//     let service: PopupService;
+// xdescribe('DestroyService', () => {
+//     let service: DestroyService;
 
 //     beforeEach(() => {
 //         TestBed.configureTestingModule({});
-//         service = TestBed.inject(PopupService);
+//         service = TestBed.inject(DestroyService);
 //     });
 
 //     it('should be created', () => {
